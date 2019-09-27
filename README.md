@@ -16,6 +16,7 @@ Reference links:
 
 1. http://tanzil.net
 2. http://qurandatabase.org/
+3. http://qurandictionary.net
 
 
 
