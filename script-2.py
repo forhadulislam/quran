@@ -30,8 +30,8 @@ def create_table(conn, create_table_sql):
 
 def create_entry(conn, data):
 
-    sql = ''' INSERT INTO quran_words (surahnumber, ayahposition, ayah, english_translation)
-              VALUES(?,?,?,?) '''
+    sql = ''' INSERT INTO quran_words (surah_number, ayah_position, ayah, is_arabic, english_translation)
+              VALUES(?,?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, data)
     return cur.lastrowid
@@ -41,9 +41,10 @@ dbConn = create_connection(dbLocation)
 
 sql_create_translation_table = """CREATE TABLE IF NOT EXISTS quran_words (
                                     id integer PRIMARY KEY,
-                                    surahnumber string NOT NULL,
-                                    ayahposition string NOT NULL,
+                                    surah_number string NOT NULL,
+                                    ayah_position string NOT NULL,
                                     ayah string NOT NULL,
+                                    is_arabic integer NOT NULL,
                                     english_translation string NOT NULL
                                 );"""
 
@@ -73,8 +74,13 @@ with dbConn:
             print(surahNumber + " - Ayah - " + str(ayah))
             contentSeq = 0
             for txt in content:
-                englishText = txt.text
+                fullText = txt.text
                 contentSeq = contentSeq + 1
-                dt = (surahNumber, str(contentSeq), str(ayah), englishText)
+                isArabicText = 0
+                if txt.has_attr('class') and txt['class'][0] == 'arabic':
+                    isArabicText = 1
+                dt = (surahNumber, str(contentSeq), str(ayah), isArabicText, fullText)
                 newId = create_entry(dbConn, dt)
+            break
+        break
 
