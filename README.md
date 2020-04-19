@@ -18,6 +18,7 @@ Reference links:
 2. http://qurandatabase.org/
 3. http://qurandictionary.net
 4. http://qtafsir.com
+5. https://quranx.com/
 
 
 
